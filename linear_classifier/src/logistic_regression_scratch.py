@@ -1,5 +1,5 @@
 import torch
-import math 
+
 class LogisticRegressionScratch:
     
     
@@ -31,8 +31,22 @@ class LogisticRegressionScratch:
         
 
     def fit(self, data_loader, epochs=10):
-        return
+        for epoch in range(epochs):
+            for X, y in data_loader:
+                X = X.view(X.shape[0], -1)  # flattening images
+                loss = self.compute_loss(X, y)
+                loss.backward()
+
+                with torch.no_grad():
+                    self.W -= self.lr * self.W.grad
+                    self.b -= self.lr * self.b.grad
+                    self.W.grad.zero_()
+                    self.b.grad.zero_()
     
 
     def predict(self,X):
-        return
+        X = X.view(X.shape[0], -1)
+        logits = X @ self.W + self.b
+        probs = torch.sigmoid(logits)
+        return (probs >= 0.5).long().view(-1)
+    
