@@ -69,7 +69,7 @@ def load_transform_split_mnist(
     val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
 
-    return train_loader, val_loader, test_loader, len(train_set), len(val_set), len(test_set)
+    return train_loader, val_loader, test_loader, train_set, val_set, test_set, len(train_set), len(val_set), len(test_set)
 
 def check_device():
     if torch.cuda.is_available():
