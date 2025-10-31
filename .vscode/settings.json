@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./MLP/src",
+        "./linear_classifiers/src"
+    ]
+}
