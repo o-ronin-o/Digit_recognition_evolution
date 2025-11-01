@@ -45,8 +45,7 @@ class FlexibleNN(nn.Module):
 
     def fit(self, train_loader, val_loader, epochs=50, lr=0.01):
         """
-        The complete training loop (Requirement B2).
-        This is the same loop from your friend's NeuralNetworkScratch file.
+        The complete training loop.
         """
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(self.parameters(), lr=lr)
@@ -86,8 +85,8 @@ class FlexibleNN(nn.Module):
             avg_val_acc = val_correct / val_total
             
             print(f"Epoch {epoch+1:2}/{epochs} | "
-                  f"Train Loss: {avg_train_loss:.4f}, Train Acc: {avg_train_acc*100:.2f}% | "
-                  f"Val Loss: {avg_val_loss:.4f},   Val Acc: {avg_val_acc*100:.2f}%")
+                f"Train Loss: {avg_train_loss:.4f}, Train Acc: {avg_train_acc*100:.2f}% | "
+                f"Val Loss: {avg_val_loss:.4f},   Val Acc: {avg_val_acc*100:.2f}%")
             
             self.history['train_loss'].append(avg_train_loss)
             self.history['train_acc'].append(avg_train_acc)

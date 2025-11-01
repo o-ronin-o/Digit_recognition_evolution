@@ -6,12 +6,12 @@ from tqdm.auto import tqdm # Optional: for a nice progress bar
 
 class NeuralNetworkScratch(nn.Module):
     
-    def __init__(self, input_dim, hidden1, hidden2, output_dim):
+    def __init__(self, input_dim, hidden1, hidden2, output_dim, seed=47):
         """
-        B1: Flexible architecture: Input -> Hidden1 -> Hidden2 -> Output
+        architecture: Input -> Hidden1 -> Hidden2 -> Output
         """
         super().__init__()
-        
+        torch.manual_seed(seed)
         # Define the layers
         self.fc1 = nn.Linear(input_dim, hidden1)
         self.fc2 = nn.Linear(hidden1, hidden2)
@@ -37,7 +37,7 @@ class NeuralNetworkScratch(nn.Module):
 
     def forward(self, x):
         """
-        B1: Defines the forward pass: Input -> ReLU -> Hidden1 -> ReLU -> Hidden2 -> Output
+        Defines the forward pass: Input -> ReLU -> Hidden1 -> ReLU -> Hidden2 -> Output
         """
         # Flatten the image
         x = x.view(x.shape[0], -1)
@@ -127,3 +127,5 @@ class NeuralNetworkScratch(nn.Module):
             self.history['train_acc'].append(avg_train_acc)
             self.history['val_loss'].append(avg_val_loss)
             self.history['val_acc'].append(avg_val_acc)
+            
+        return self.history

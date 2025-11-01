@@ -119,3 +119,62 @@ def plot_per_class_acc(df):
     plt.ylabel("Accuracy")
     plt.title("Per-Class Accuracy (%)")
     plt.show()
+
+def plot_learning_curves_with_error_bars(history_list):
+    
+    # Stack metrics from all runs
+    # This creates a 2D numpy array: (num_runs, num_epochs)
+    train_loss = np.array([h['train_loss'] for h in history_list])
+    val_loss = np.array([h['val_loss'] for h in history_list])
+    train_acc = np.array([h['train_acc'] for h in history_list])
+    val_acc = np.array([h['val_acc'] for h in history_list])
+    
+    # Get mean and standard deviation across all runs (axis=0)
+    mean_train_loss, std_train_loss = np.mean(train_loss, axis=0), np.std(train_loss, axis=0)
+    mean_val_loss, std_val_loss = np.mean(val_loss, axis=0), np.std(val_loss, axis=0)
+    mean_train_acc, std_train_acc = np.mean(train_acc, axis=0), np.std(train_acc, axis=0)
+    mean_val_acc, std_val_acc = np.mean(val_acc, axis=0), np.std(val_acc, axis=0)
+    
+    epochs = np.arange(len(mean_train_loss))
+
+    # Create the figure
+    plt.figure(figsize=(12, 5))
+
+    # --- Loss Plot ---
+    plt.subplot(1, 2, 1)
+    # Plot the mean lines
+    plt.plot(epochs, mean_train_loss, 'b-', label="Mean Training Loss")
+    plt.plot(epochs, mean_val_loss, 'r-', label="Mean Validation Loss")
+    
+    # Plot the shaded error bars (mean +/- std)
+    plt.fill_between(epochs, mean_train_loss - std_train_loss, 
+                mean_train_loss + std_train_loss, color='blue', alpha=0.2)
+    plt.fill_between(epochs, mean_val_loss - std_val_loss, 
+                mean_val_loss + std_val_loss, color='red', alpha=0.2)
+    
+    plt.title("Training & Validation Loss (Mean +/- Std)")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.grid(True)
+    plt.legend()
+
+    # --- Accuracy Plot ---
+    plt.subplot(1, 2, 2)
+    # Plot the mean lines
+    plt.plot(epochs, mean_train_acc, 'b-', label="Mean Training Accuracy")
+    plt.plot(epochs, mean_val_acc, 'r-', label="Mean Validation Accuracy")
+    
+    # Plot the shaded error bars (mean +/- std)
+    plt.fill_between(epochs, mean_train_acc - std_train_acc, 
+                    mean_train_acc + std_train_acc, color='blue', alpha=0.2)
+    plt.fill_between(epochs, mean_val_acc - std_val_acc, 
+                    mean_val_acc + std_val_acc, color='red', alpha=0.2)
+    
+    plt.title("Training & Validation Accuracy (Mean +/- Std)")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.grid(True)
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
